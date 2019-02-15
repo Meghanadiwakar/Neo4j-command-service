@@ -4,13 +4,12 @@ import com.stackroute.graph.model.Movie;
 import com.stackroute.graph.model.Person;
 import com.stackroute.graph.service.HomeService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.collections.IteratorUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 @RestController
 @Slf4j
@@ -21,26 +20,19 @@ public class HomeController {
         this.homeService = homeService;
     }
 
-    @GetMapping("/movies")
-    public ResponseEntity<List<Movie>> getAllMovies() {
-        ResponseEntity<List<Movie>> responseEntity;
-        List<Movie> movies;
-        //String movies="sdv";
+    @GetMapping("/getallmovies")
+    public ResponseEntity<Collection<Movie>> getAllMovies() {
+        ResponseEntity<Collection<Movie>> responseEntity;
         try {
             log.info("Fetching movie nodes");
-            movies = IteratorUtils.toList(homeService.getAllMovies().iterator());
-
-            responseEntity = new ResponseEntity(movies, HttpStatus.OK);
-
-
+            responseEntity = new ResponseEntity(homeService.getMovies(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
-            movies = Collections.emptyList();
-            responseEntity = new ResponseEntity(movies, HttpStatus.BAD_GATEWAY);
-
+            responseEntity = new ResponseEntity(Collections.emptyList(), HttpStatus.BAD_GATEWAY);
         }
         return responseEntity;
     }
+
 
     @PostMapping("/addmovie")
     public ResponseEntity<String> addMovie(@RequestBody Movie movie) {
@@ -56,20 +48,19 @@ public class HomeController {
         return responseEntity;
     }
 
-    @GetMapping("/persons")
-    public ResponseEntity<List<Person>> getAllPersons() {
-        ResponseEntity<List<Person>> responseEntity;
-        List<Person> movies;
+
+    @GetMapping("/getallpersons")
+    public ResponseEntity<Collection<Person>> getAllPersons() {
+        ResponseEntity<Collection<Person>> responseEntity;
         try {
             log.info("Fetching person nodes");
-            movies = IteratorUtils.toList(homeService.getAllPersons().iterator());
-            responseEntity = new ResponseEntity(movies, HttpStatus.OK);
+
+            responseEntity = new ResponseEntity(homeService.getPersons(), HttpStatus.OK);
 
 
         } catch (Exception e) {
             e.printStackTrace();
-            movies = Collections.emptyList();
-            responseEntity = new ResponseEntity(movies, HttpStatus.BAD_GATEWAY);
+            responseEntity = new ResponseEntity(Collections.emptyList(), HttpStatus.BAD_GATEWAY);
 
         }
         return responseEntity;
@@ -89,12 +80,19 @@ public class HomeController {
         return responseEntity;
     }
 
-    @DeleteMapping("/deleteperson")
-    public ResponseEntity<String> deleteallPersons() {
-        ResponseEntity<String> responseEntity;
+//    @GetMapping("/movie")
+//    public Collection<Movie> getMovies() { return homeService.getMovies();}
+//
+//
+//    @GetMapping("/person")
+//    public Collection<Person> getPersons() { return homeService.getPersons();}
+
+    @DeleteMapping("/deleteperson/{name}")
+    public ResponseEntity<?> deleteallPersons(@PathVariable("name") String name) {
+        ResponseEntity<?> responseEntity;
         try {
-            homeService.deletePersons();
-            responseEntity = new ResponseEntity<>("Person deleted    sucessfully", HttpStatus.OK);
+            homeService.deletePersons(name);
+            responseEntity = new ResponseEntity<>("Person deleted sucessfully", HttpStatus.OK);
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -103,19 +101,16 @@ public class HomeController {
         return responseEntity;
     }
 
-    @DeleteMapping("/deletemovie")
-    public ResponseEntity<String> deleteallMovies() {
+    @DeleteMapping("/deletemovie/{released}")
+    public ResponseEntity<?> deleteallMovies(@PathVariable("released") int released) {
         ResponseEntity<String> responseEntity;
         try {
-            homeService.deleteMovies();
-            responseEntity = new ResponseEntity<>("Movie deleted    sucessfully", HttpStatus.OK);
-
+            homeService.deleteMovies(released);
+            responseEntity = new ResponseEntity<>("Person deleted sucessfully", HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity<>("Error occured while deleting", HttpStatus.BAD_GATEWAY);
         }
         return responseEntity;
     }
-
-
 }

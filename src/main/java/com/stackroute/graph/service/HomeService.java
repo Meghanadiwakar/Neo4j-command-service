@@ -6,7 +6,8 @@ import com.stackroute.graph.repository.MovieRepository;
 import com.stackroute.graph.repository.PersonRepository;
 import org.springframework.stereotype.Service;
 
-//import com.stackroute.graph.model.Role;
+import java.util.Collection;
+
 
 @Service
 public class HomeService {
@@ -19,12 +20,12 @@ public class HomeService {
     }
 
 
-    public void deletePersons() {
-        personRepository.deleteAll();
+    public void deletePersons(String name) {
+        personRepository.deleteByName(name);
     }
 
-    public void deleteMovies() {
-        movieRepository.deleteAll();
+    public void deleteMovies(int released) {
+        movieRepository.deleteByReleased(released);
     }
 
     public Iterable<Movie> getAllMovies() {
@@ -43,11 +44,13 @@ public class HomeService {
         personRepository.save(person);
     }
 
-//    public void addRelationship(Person person,Movie movie){
-//        Role role =new Role();
-//        role.setMovie(movie);
-//        role.setPerson(person);
-//    }
+    public Collection<Movie> getMovies() {
+        return movieRepository.getAllMovies();
+    }
+
+    public Collection<Person> getPersons() {
+        return personRepository.getAllPersons();
+    }
 
 
 }
