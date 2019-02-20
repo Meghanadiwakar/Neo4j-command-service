@@ -5,10 +5,6 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.neo4j.ogm.annotation.Id;
 import org.neo4j.ogm.annotation.NodeEntity;
-import org.neo4j.ogm.annotation.Relationship;
-
-import java.util.ArrayList;
-import java.util.List;
 
 @NodeEntity
 @Data
@@ -19,5 +15,7 @@ public class User {
     private int userId;
     private String userName;
     private int reputation;
+//    @Relationship(type = "ASKED", direction= Relationship.INCOMING)
+//    private List<Question> questions;
 
 }
