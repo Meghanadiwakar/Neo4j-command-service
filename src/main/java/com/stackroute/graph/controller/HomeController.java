@@ -1,6 +1,7 @@
 package com.stackroute.graph.controller;
 
 
+import com.stackroute.graph.model.Answer;
 import com.stackroute.graph.model.Question;
 import com.stackroute.graph.model.User;
 import com.stackroute.graph.service.HomeService;
@@ -73,6 +74,48 @@ public class HomeController {
         try {
             log.info("Fetching question nodes");
             responseEntity = new ResponseEntity(homeService.getQuestions(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity(Collections.emptyList(), HttpStatus.BAD_GATEWAY);
+        }
+        return responseEntity;
+    }
+
+
+    @PostMapping("/addanswer")
+    public ResponseEntity<String> addAnswer(@RequestBody Answer answer) {
+        ResponseEntity<String> responseEntity;
+        try {
+            homeService.saveAnswerToDb(answer);
+            ;
+            responseEntity = new ResponseEntity<>("Answer saved sucessfully", HttpStatus.OK);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity<>("Error occured while saving", HttpStatus.BAD_GATEWAY);
+        }
+        return responseEntity;
+    }
+
+    @GetMapping("/getanswers")
+    public ResponseEntity<Collection<Answer>> getAllAnswers() {
+        ResponseEntity<Collection<Answer>> responseEntity;
+        try {
+            log.info("Fetching answer nodes");
+            responseEntity = new ResponseEntity(homeService.getAnswers(), HttpStatus.OK);
+        } catch (Exception e) {
+            e.printStackTrace();
+            responseEntity = new ResponseEntity(Collections.emptyList(), HttpStatus.BAD_GATEWAY);
+        }
+        return responseEntity;
+    }
+
+    @GetMapping("/getanswered")
+    public ResponseEntity<Collection<Answer>> getAllAnswered() {
+        ResponseEntity<Collection<Answer>> responseEntity;
+        try {
+            log.info("Fetching answer nodes");
+            responseEntity = new ResponseEntity(homeService.getAnswered(), HttpStatus.OK);
         } catch (Exception e) {
             e.printStackTrace();
             responseEntity = new ResponseEntity(Collections.emptyList(), HttpStatus.BAD_GATEWAY);

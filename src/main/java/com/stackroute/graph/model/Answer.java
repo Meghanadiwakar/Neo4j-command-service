@@ -20,8 +20,8 @@ public class Answer {
     private String answerString;
     @Relationship(type = "ACCEPTED", direction = Relationship.INCOMING)
     private List<User> user;
-
-
+    @Relationship(type = "ANSWERED", direction = Relationship.INCOMING)
+    private List<User> user1;
 }
 
 
