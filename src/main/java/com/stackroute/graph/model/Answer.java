@@ -22,6 +22,12 @@ public class Answer {
     private List<User> user;
     @Relationship(type = "ANSWERED", direction = Relationship.INCOMING)
     private List<User> user1;
+    @Relationship(type = "UPVOTED", direction = Relationship.INCOMING)
+    private List<User> user2;
+    @Relationship(type = "DOWNVOTED", direction = Relationship.INCOMING)
+    private List<User> user3;
+
+
 }
 
 

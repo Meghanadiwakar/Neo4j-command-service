@@ -54,7 +54,4 @@ public class HomeService {
         return answerRepository.getAllAnswers();
     }
 
-    public Collection<Answer> getAnswered() {
-        return answerRepository.getAllAnswered();
-    }
 }

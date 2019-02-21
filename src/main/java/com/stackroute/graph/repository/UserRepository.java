@@ -12,5 +12,5 @@ public interface UserRepository extends Neo4jRepository<User,Integer> {
     @Query("MATCH (m:User) RETURN m")
     Collection<User> getAllUsers();
 
-//    @Query("MATCH (m:Movie)<-[r:ACTED_IN]-(u:Person) RETURN m")
+
 }

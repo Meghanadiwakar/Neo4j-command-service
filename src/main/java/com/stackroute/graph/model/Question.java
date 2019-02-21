@@ -24,6 +24,14 @@ public class Question {
     private int downVote;
     @Relationship(type = "ASKED", direction = Relationship.INCOMING)
     private List<User> user;
+    @Relationship(type = "ANSWER_OF", direction = Relationship.INCOMING)
+    private List<Answer> answer;
+    @Relationship(type = "VIEWED", direction = Relationship.INCOMING)
+    private List<User> user1;
+    @Relationship(type = "UPVOTED", direction = Relationship.INCOMING)
+    private List<User> user2;
+    @Relationship(type = "DOWNVOTED", direction = Relationship.INCOMING)
+    private List<User> user3;
 
 
 }
